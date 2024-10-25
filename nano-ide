@@ -1,0 +1,27 @@
+#!/bin/bash
+
+tmux new-session -d -s nano-ide
+
+# Ventana 1: Nano (editor)
+tmux send-keys  './abrir_nano.sh' C-m
+
+# Ventana 3: Depurador/Compilador
+tmux split-window -v -l 15
+#tmux send-keys './menu.sh' C-m
+
+# Ventana 2: NNN (explorador de archivos)
+#tmux split-window -h 
+#tmux send-keys 'nnn' C-m
+
+# Ventana 3: Depurador/Compilador
+tmux split-window -h -l 30
+tmux send-keys './menu.sh' C-m
+
+# Barra de menú siempre visible (opcional)
+tmux select-pane 
+tmux set-option -g status on
+tmux set-option -g status-interval 1
+
+
+# Adjuntar a la sesión
+tmux attach-session -t nano-ide
