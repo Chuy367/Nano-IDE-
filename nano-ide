@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 tmux new-session -d -s nano-ide
 
 # Ventana 1: Nano (editor)

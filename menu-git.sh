@@ -15,24 +15,25 @@ while true; do
     1)
 	read -p 'Escribe el mensaje del commit: ' mensaje
 	tmux send-keys -t 1 "git add . && git commit -m \"$mensaje\" && git push origin master" Enter
-	tmux select-pane -t 1
 	clear
+	tmux select-pane -t 1
+
 
       
       ;;
     2)
-	clear
 	tmux send-keys -t 1 "git status" Enter
+	clear
 	tmux select-pane -t 1
       ;;
     3)
-	clear
 	tmux send-keys -t 1 "git log --oneline" Enter
+	clear
 	tmux select-pane -t 1
       ;;
     4)
-	clear
 	tmux send-keys -t 1 "git pull origin master" Enter
+	clear
 	tmux select-pane -t 1
       ;;
     5)
