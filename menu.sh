@@ -20,9 +20,10 @@ while true; do
     echo "Archivo actual: $archivo"
     echo "Extensión: .$extension"
     echo "Seleccione una opción:"
+    
 
     # Genera opciones dinámicas basadas en la extensión
-    opciones=("Actualizar" "Salir")  # Opciones básicas disponibles
+    opciones=("Actualizar" "GitHub" "Salir")  # Opciones básicas disponibles
     if [[ "$extension" == "c" ]]; then
         opciones=("Compilar C" "Ejecutar C" "Depurar C" "${opciones[@]}")
     elif [[ "$extension" == "py" ]]; then
@@ -84,7 +85,11 @@ while true; do
                 echo "Saliendo..."
                 exit 0
                 ;;
-            *)
+            "GitHub")
+		clear
+		./menu-git.sh
+		;;
+		*)
                 echo "Opción inválida, intenta de nuevo."
                 ;;
         esac
