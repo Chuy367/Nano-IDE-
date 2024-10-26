@@ -13,18 +13,27 @@ while true; do
 
   case $opcion_github in
     1)
-	tmux send-keys -t 1 "git add . && read -p 'Escribe el mensaje del commit: ' mensaje && git commit -m '$mensaje' && git push origin master" Enter
+	read -p 'Escribe el mensaje del commit: ' mensaje
+	tmux send-keys -t 1 "git add . && git commit -m \"$mensaje\" && git push origin master" Enter
+	tmux select-pane -t 1
+	clear
 
       
       ;;
     2)
+	clear
 	tmux send-keys -t 1 "git status" Enter
+	tmux select-pane -t 1
       ;;
     3)
+	clear
 	tmux send-keys -t 1 "git log --oneline" Enter
+	tmux select-pane -t 1
       ;;
     4)
+	clear
 	tmux send-keys -t 1 "git pull origin master" Enter
+	tmux select-pane -t 1
       ;;
     5)
       clear
