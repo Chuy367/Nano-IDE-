@@ -14,82 +14,49 @@ actualizar_archivo() {
 # Llamada inicial a la función para obtener el archivo
 actualizar_archivo
 
+# Función para abrir el menú del lenguaje correspondiente
+abrir_menu_lenguaje() {
+    menu_path="menus/menu_$extension.sh"
+    if [[ -f "$menu_path" ]]; then
+        echo "Abriendo menú para .$extension..."
+        bash "$menu_path"
+    else
+        echo "No se encontró un menú para .$extension"
+    fi
+}
+
 # Bucle principal
 while true; do
     clear  # Limpia la pantalla
     echo "Archivo actual: $archivo"
     echo "Extensión: .$extension"
     echo "Seleccione una opción:"
-    
 
-    # Genera opciones dinámicas basadas en la extensión
-    opciones=("Actualizar" "GitHub" "Salir")  # Opciones básicas disponibles
-    if [[ "$extension" == "c" ]]; then
-        opciones=("Compilar C" "Ejecutar C" "Depurar C" "${opciones[@]}")
-    elif [[ "$extension" == "py" ]]; then
-        opciones=("Ejecutar Python" "Depurar Python" "${opciones[@]}")
-   elif [[ "$extension" == "html" ]]; then
-        opciones=("Servidor html"  "${opciones[@]}")
-
-    elif [[ "$extension" == "sh" ]]; then
-        opciones=("Ejecutar Script" "${opciones[@]}")
-    fi
+    # Opciones básicas disponibles
+    opciones=("Abrir menú del lenguaje" "Actualizar" "GitHub" "Salir")
 
     # Mostrar opciones usando 'select'
     select opcion in "${opciones[@]}"; do
         case $opcion in
-            "Compilar C")
-		tmux send-keys -t 1 "gcc '$archivo' -o '${archivo%.c}.out' && echo '¡Compilación exitosa!'" Enter
-		tmux select-pane -t 1
+            "Abrir menú del lenguaje")
+                abrir_menu_lenguaje
                 break
                 ;;
-            "Ejecutar C")
-		tmux send-keys -t 1 "${archivo%.c}.out" Enter
-                tmux select-pane -t 1
-                break
-                ;;
-            "Depurar C")
-                tmux send-keys -t 1 "gdb './${archivo%.c}.out'" Enter
-		tmux send-keys -t 1  "chmod +x '$archivo'" Enter
-		tmux select-pane -t 1
-                break
-                ;;
-            "Ejecutar Python")
-		tmux send-keys -t 1 "python3 '$archivo'" Enter
-                tmux select-pane -t 1
-                break
-                ;;
-            "Depurar Python")
-               tmux send-keys -t 1 "python3 -m pdb '$archivo'" Enter
-		tmux select-pane -t 1
-                break
-                ;;
-            "Ejecutar Script")
-		tmux send-keys -t 1 "bash '$archivo'" Enter
-                tmux select-pane -t 1
-                break
-                ;;
-            "Servidor html")
-		tmux send-keys -t 1 "ifconfig" Enter
-		tmux send-keys -t 1 "python3 -m http.server" Enter
-		tmux select-pane -t 1
-                break
-                ;;
-
-	    "Actualizar")
+            "Actualizar")
                 actualizar_archivo
                 echo "Archivo actualizado: $archivo"
+                break
+                ;;
+            "GitHub")
+                clear
+                ./menus/menu-git.sh
                 break
                 ;;
             "Salir")
                 echo "Saliendo..."
                 exit 0
                 ;;
-            "GitHub")
-		clear
-		./menu-git.sh
-		;;
-		*)
+            *)
                 echo "Opción inválida, intenta de nuevo."
                 ;;
         esac
